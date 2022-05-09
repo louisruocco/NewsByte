@@ -5,16 +5,16 @@ const scraper = async (url) => {
     const page = await browser.newPage();
     await page.goto(url);
 
-    const [title] = await page.$x('//*[@id="nw-c-topstories-england"]/div/div/div[1]/div/div[3]/div/div[2]/div/a');
-    const link = page.url();
-    const txt = await title.getProperty("textContent");
-    const rawTxt = await txt.jsonValue();
+    const [link] = await page.$x('//*[@id="main-content"]/div[1]/div[2]/div/div/ul/li[1]/div/div/div/div[1]/div[1]/a');
+    const href = await link.getProperty("href");
+    const rawLink = await href.jsonValue();
+    console.log(rawLink);
+    
 
-    console.log(rawTxt)
 
-    browser.close();
+    await browser.close();
 }
 
-scraper("https://www.bbc.co.uk/news")
+scraper("https://www.bbc.co.uk/sport")
 
 module.exports = scraper;
