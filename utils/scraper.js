@@ -9,23 +9,28 @@ const scraper = async (url) => {
     const [title] = await page.$x('//*[@id="nw-c-topstories-england"]/div/div/div[1]/div/div[1]/div/div/div[1]/div/a')
     const txt = await title.getProperty("textContent");
     const rawTxt = await txt.jsonValue();
-    console.log(rawTxt);
 
     const [description] = await page.$x('//*[@id="nw-c-topstories-england"]/div/div/div[1]/div/div[1]/div/div/div[1]/div/p')
     const desc = await description.getProperty("textContent");
     const rawDesc = await desc.jsonValue();
-    console.log(rawDesc);
 
     const [link] = await page.$x('//*[@id="nw-c-topstories-england"]/div/div/div[1]/div/div[1]/div/div/div[1]/div/a')
     const href = await link.getProperty("href");
     const rawHref = await href.jsonValue();
-    console.log(rawHref);
+
+    const findTitle = await data.findOne({title: rawTxt});
+
+    if(findTitle.title.length > 0){
+        return console.log("article already added")
+    }
 
     await data.create({
         title: rawTxt, 
         description: rawDesc, 
         link: rawHref
     })
+
+    await browser.close();
 }
 
 scraper("https://www.bbc.co.uk/news")
