@@ -1,7 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const scraper = require("./utils/scraper");
-const data = require("./db/schemas/data");
 const email = require("./utils/email")
 const app = express();
 

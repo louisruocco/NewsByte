@@ -1,5 +1,4 @@
 const puppeteer = require("puppeteer");
-const data = require("../db/schemas/data");
 
 const scraper = async (url) => {
     const browser = await puppeteer.launch();
@@ -17,18 +16,6 @@ const scraper = async (url) => {
     const [link] = await page.$x('//*[@id="nw-c-topstories-england"]/div/div/div[1]/div/div[1]/div/div/div[1]/div/a')
     const href = await link.getProperty("href");
     const rawHref = await href.jsonValue();
-
-    const findTitle = await data.findOne({title: rawTxt});
-
-    if(findTitle.title.length > 0){
-        return console.log("article already added")
-    }
-
-    await data.create({
-        title: rawTxt, 
-        description: rawDesc, 
-        link: rawHref
-    })
 
     await browser.close();
 }
