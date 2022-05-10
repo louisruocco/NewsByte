@@ -1,6 +1,7 @@
 const puppeteer = require("puppeteer");
 const dotenv = require("dotenv");
 const nodemailer = require("nodemailer");
+const schedule = require("node-schedule")
 
 dotenv.config({path: "./.env"})
 
@@ -24,7 +25,8 @@ const months = [
     "December"
 ]
 
-const scraper = async (url) => {
+const scraper = schedule.scheduleJob("0 8 * * *", async () => {
+    const url = "https://www.bbc.co.uk/news";
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);
@@ -65,7 +67,7 @@ const scraper = async (url) => {
         <body>
             <h1>NewsByte - ${day} ${months[month]} ${year}</h1>
             <ul>
-                <h2>Top Story:</h2>
+                <h2>Top Stories:</h2>
                 <li><a href = ${rawHref}>${rawTxt}</a><br>${rawDesc}</li>
                 <li><a href = ${rawHref1}>${rawTxt1}</a><br>${rawDesc1}</li>
             </ul>
@@ -88,8 +90,6 @@ const scraper = async (url) => {
     })
 
     await browser.close();
-}
-
-scraper("https://www.bbc.co.uk/news")
+})
 
 module.exports = scraper;
