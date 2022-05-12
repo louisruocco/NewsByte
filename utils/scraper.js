@@ -25,7 +25,7 @@ const months = [
     "December"
 ]
 
-const scraper = schedule.scheduleJob("0 8 * * *", async () => {
+const scraper = schedule.scheduleJob("0 7 * * *", async () => {
     const url = "https://www.bbc.co.uk/news";
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
