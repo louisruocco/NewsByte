@@ -13,3 +13,4 @@ An email sign up front end will be coming soon!
 - Puppeteer
 - nodemailer
 - node-schedule
+- AWS
